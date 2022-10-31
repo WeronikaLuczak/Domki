@@ -12,12 +12,12 @@ import lombok.Setter;
 public class OfferDto {
 
     private Integer id;
-    private String name;
+    private String houseName;
     private String address;
     private String dateFrom;
     private String dateTo;
     private int maximumNumberOfPeople;
-    private boolean animals;
-    private boolean noSmoking;
-    private int pricePln;
+    private Boolean animals;
+    private Boolean noSmoking;
+    private double pricePerDayPln;
 }

@@ -1,4 +1,4 @@
-package pl.wluczak.projektdomki.api.data.model;
+package pl.wluczak.projektdomki.data.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -19,10 +19,10 @@ public class OfferEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private int id;
+    private Integer id;
 
-    @Column(name = "name")
-    private String name;
+    @Column(name = "house_name")
+    private String houseName;
 
     @Column(name = "address")
     private String address;
@@ -44,7 +44,7 @@ public class OfferEntity {
     @Column(name ="no_smoking")
     private boolean noSmoking;
 
-    @Column(name = "price_pln")
-    private int pricePln;
+    @Column(name = "price_per_day_pln")
+    private double pricePerDayPln;
 
 }
