@@ -37,4 +37,12 @@ public class OfferController {
     public void updateOffer(@RequestBody OfferDto offerDto, @PathVariable("id") int id) {
         offerService.updateOffer(offerDto, id);
     }
+
+    @GetMapping("/available")
+    public List<OfferDto> getOffersAvailable(@RequestParam("from") String from,
+                                             @RequestParam("to") String to)  {
+        return offerService.getOffersAvailable(from, to);
+
+
+    }
 }

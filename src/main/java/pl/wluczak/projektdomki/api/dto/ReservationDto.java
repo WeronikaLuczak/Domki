@@ -14,7 +14,7 @@ public class ReservationDto {
     private Integer customerId;
     private String dateFrom;
     private String dateTo;
-    private String houseId;
+    private Integer houseId;
     private String paymentMethod;
 
 }

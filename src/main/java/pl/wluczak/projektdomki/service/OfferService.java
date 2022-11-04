@@ -7,6 +7,7 @@ import pl.wluczak.projektdomki.api.dto.ReservationDto;
 import pl.wluczak.projektdomki.data.model.OfferEntity;
 import pl.wluczak.projektdomki.data.model.ReservationEntity;
 import pl.wluczak.projektdomki.data.repository.OfferRepository;
+import pl.wluczak.projektdomki.data.repository.ReservationRepository;
 import pl.wluczak.projektdomki.utils.DateUtils;
 
 import java.util.Date;
@@ -20,6 +21,8 @@ import java.util.stream.Collectors;
 public class OfferService {
 
     private final OfferRepository offerRepository;
+
+    private final ReservationRepository reservationRepository;
 
     public void createOffer(OfferDto offerDto) {
         Date from = DateUtils.convertDate(offerDto.getDateFrom());
@@ -35,12 +38,24 @@ public class OfferService {
     public List<OfferDto> getOffers() {
         List<OfferEntity> entities = offerRepository.findAll();
         return entities.stream()
-                .map(offerEntity -> new OfferDto(null,offerEntity.getHouseName(),offerEntity.getAddress(),
+                .map(offerEntity -> new OfferDto(null, offerEntity.getHouseName(), offerEntity.getAddress(),
                         DateUtils.convertDate(offerEntity.getDateFrom()),
                         DateUtils.convertDate(offerEntity.getDateTo()),
                         offerEntity.getMaximumNumberOfPeople(), offerEntity.isAnimals(), offerEntity.isNoSmoking(),
                         offerEntity.getPricePerDayPln()))
                 .collect(Collectors.toList());
+    }
+
+    public List<OfferDto> getOffersAvailable(String from, String to) {
+        Date dateFrom = DateUtils.convertDate(from);
+        Date dateTo = DateUtils.convertDate(to);
+        List<OfferDto> dtos = getOffers().stream()
+                .filter(offerDto -> {
+                    int offerCounts = reservationRepository.countReservationBetweenDates(dateFrom, dateTo,offerDto.getId());
+                    return offerCounts == 0;
+                })
+                .collect(Collectors.toList());
+        return dtos;
     }
 
     public void deleteOffer(int id) {

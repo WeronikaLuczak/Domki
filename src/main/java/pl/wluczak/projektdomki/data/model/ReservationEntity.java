@@ -30,7 +30,7 @@ public class ReservationEntity {
     private Date dateTo;
 
     @Column(name = "house_id ")
-    private String houseId;
+    private Integer houseId;
 
     @Column(name = "payment_method")
     private String paymentMethod;

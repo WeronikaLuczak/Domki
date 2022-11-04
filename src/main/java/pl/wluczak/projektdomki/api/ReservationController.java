@@ -32,7 +32,7 @@ public class ReservationController {
 
     @DeleteMapping("/{id}")
     public void deleteReservation(@PathVariable("id") int id) {
-
+        reservationService.deleteReservation(id);
     }
 
 //    @PutMapping("/{id}")
