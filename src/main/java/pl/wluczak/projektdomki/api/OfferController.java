@@ -40,7 +40,7 @@ public class OfferController {
 
     @GetMapping("/available")
     public List<OfferDto> getOffersAvailable(@RequestParam("from") String from,
-                                             @RequestParam("to") String to)  {
+                                             @RequestParam("to") String to) {
         return offerService.getOffersAvailable(from, to);
 
 

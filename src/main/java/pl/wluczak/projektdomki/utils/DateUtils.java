@@ -7,17 +7,27 @@ import java.util.Date;
 
 public class DateUtils {
 
-    public static Date convertDate(String text){
+    public static Date convertDate(String text) {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         try {
-           return simpleDateFormat.parse(text);
+            return simpleDateFormat.parse(text);
         } catch (ParseException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public static String convertDate(Date date){
+    public static String convertDate(Date date) {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         return simpleDateFormat.format(date);
+    }
+
+    public static int countDifferenceDaysBetween(Date from, Date to) {
+        long fromSec = from.getTime() / 1000L;
+        long toSec = to.getTime() / 1000L;
+
+        long diff = toSec - fromSec;
+
+        long diffDays = diff / (24 * 60 * 60);
+        return (int) diffDays;
     }
 }

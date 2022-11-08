@@ -16,5 +16,3 @@ public interface ReservationRepository extends JpaRepository<ReservationEntity,I
     Integer countReservationBetweenDates (Date from, Date to, Integer houseId);
 
 }
-// sprawdzić czy podczas składania rezerwacji istnieje dany domek
-// podczas składania rezerwacji sprawdzić czy jest wolny domek

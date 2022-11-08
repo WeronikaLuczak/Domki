@@ -35,9 +35,4 @@ public class ReservationController {
         reservationService.deleteReservation(id);
     }
 
-//    @PutMapping("/{id}")
-//    public void updateReservation(@RequestBody ReservationDto reservationDto, @PathVariable("id") int id) {
-//
-//    }
-
 }

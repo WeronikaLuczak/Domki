@@ -18,6 +18,9 @@ public class ReservationEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Integer id;
+
     @Column(name = "customer_id")
     private Integer customerId;
 
@@ -34,6 +37,9 @@ public class ReservationEntity {
 
     @Column(name = "payment_method")
     private String paymentMethod;
+
+    @Column(name = "price")
+    private double price;
 
 
 }

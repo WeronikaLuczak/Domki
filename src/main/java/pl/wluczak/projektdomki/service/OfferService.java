@@ -3,13 +3,12 @@ package pl.wluczak.projektdomki.service;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.wluczak.projektdomki.api.dto.OfferDto;
-import pl.wluczak.projektdomki.api.dto.ReservationDto;
 import pl.wluczak.projektdomki.data.model.OfferEntity;
-import pl.wluczak.projektdomki.data.model.ReservationEntity;
 import pl.wluczak.projektdomki.data.repository.OfferRepository;
 import pl.wluczak.projektdomki.data.repository.ReservationRepository;
 import pl.wluczak.projektdomki.utils.DateUtils;
 
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -38,7 +37,7 @@ public class OfferService {
     public List<OfferDto> getOffers() {
         List<OfferEntity> entities = offerRepository.findAll();
         return entities.stream()
-                .map(offerEntity -> new OfferDto(null, offerEntity.getHouseName(), offerEntity.getAddress(),
+                .map(offerEntity -> new OfferDto(offerEntity.getId(), offerEntity.getHouseName(), offerEntity.getAddress(),
                         DateUtils.convertDate(offerEntity.getDateFrom()),
                         DateUtils.convertDate(offerEntity.getDateTo()),
                         offerEntity.getMaximumNumberOfPeople(), offerEntity.isAnimals(), offerEntity.isNoSmoking(),
@@ -47,16 +46,27 @@ public class OfferService {
     }
 
     public List<OfferDto> getOffersAvailable(String from, String to) {
+
+        // sprawdzić czy podczas składania rezerwacji istnieje dany domek
+        // sparawdzić czy podczas składania rezerwacji jest wolny domek
+
+
         Date dateFrom = DateUtils.convertDate(from);
         Date dateTo = DateUtils.convertDate(to);
+
+        if (from.compareTo(to) >= 0){
+            return Collections.emptyList();
+        }
+
         List<OfferDto> dtos = getOffers().stream()
                 .filter(offerDto -> {
-                    int offerCounts = reservationRepository.countReservationBetweenDates(dateFrom, dateTo,offerDto.getId());
+                    int offerCounts = reservationRepository.countReservationBetweenDates(dateFrom, dateTo, offerDto.getId());
                     return offerCounts == 0;
                 })
                 .collect(Collectors.toList());
         return dtos;
     }
+
 
     public void deleteOffer(int id) {
 
