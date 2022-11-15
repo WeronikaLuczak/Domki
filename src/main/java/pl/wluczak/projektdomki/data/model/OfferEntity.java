@@ -44,7 +44,10 @@ public class OfferEntity {
     @Column(name ="no_smoking")
     private boolean noSmoking;
 
-    @Column(name = "price_per_day_pln")
-    private double pricePerDayPln;
+    @Column(name = "price_per_day_pln_in_season")
+    private double pricePerDayPlnInSeason;
+
+    @Column(name = "price_per_day_pln_out_of_season")
+    private double pricePerDayPlnOutOfSeason;
 
 }

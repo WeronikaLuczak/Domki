@@ -30,4 +30,21 @@ public class DateUtils {
         long diffDays = diff / (24 * 60 * 60);
         return (int) diffDays;
     }
+
+    public static Date max(Date first, Date second) {
+        if (first.before(second)) {
+            return second;
+        } else {
+            return first;
+        }
+    }
+
+    public static Date min(Date first, Date second) {
+        if (first.before(second)) {
+            return first;
+        } else {
+            return second;
+        }
+    }
+
 }

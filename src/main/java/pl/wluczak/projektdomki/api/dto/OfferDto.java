@@ -16,8 +16,9 @@ public class OfferDto {
     private String address;
     private String dateFrom;
     private String dateTo;
-    private int maximumNumberOfPeople;
+    private Integer maximumNumberOfPeople;
     private Boolean animals;
     private Boolean noSmoking;
-    private double pricePerDayPln;
+    private Double pricePerDayPlnInSeason;
+    private Double pricePerDayPlnOutOfSeason;
 }

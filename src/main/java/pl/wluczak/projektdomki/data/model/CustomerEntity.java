@@ -48,4 +48,10 @@ public class CustomerEntity {
     @Column(name = "email")
     private String email;
 
+    @Column(name = "login")
+    private String login;
+
+    @Column(name = "password_hash")
+    private String passwordHash;
+
 }

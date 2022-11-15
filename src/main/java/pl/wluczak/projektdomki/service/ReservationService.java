@@ -21,6 +21,8 @@ public class ReservationService {
     private final ReservationRepository reservationRepository;
     private final OfferRepository offerRepository;
 
+    private final DiscountService discountService;
+
     public void createReservation(ReservationDto reservationDto) {
         Date from = DateUtils.convertDate(reservationDto.getDateFrom());
         Date to = DateUtils.convertDate(reservationDto.getDateTo());
@@ -41,11 +43,7 @@ public class ReservationService {
             throw new RuntimeException("Istnieją rezerwacje w tym czasie");
         }
 
-        int diffDays = DateUtils.countDifferenceDaysBetween(from, to);
-
-        double price = diffDays * offer.getPricePerDayPln();
-
-        System.out.println(diffDays);
+        double price = discountService.countDiscountPrice(from,to, offer.getPricePerDayPlnInSeason(),offer.getPricePerDayPlnOutOfSeason());
 
         ReservationEntity reservationEntity = new ReservationEntity(null, reservationDto.getCustomerId(), from, to,
                 reservationDto.getHouseId(), reservationDto.getPaymentMethod(), price);

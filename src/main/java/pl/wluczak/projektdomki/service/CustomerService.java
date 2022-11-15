@@ -22,7 +22,8 @@ public class CustomerService {
         AddressDto addressDto = customerDto.getAddress();
         CustomerEntity customerEntity = new CustomerEntity(null, customerDto.getName(), customerDto.getSurname(),
                 addressDto.getStreet(), addressDto.getHouseNo(), addressDto.getFlatNo(), addressDto.getPostCode(),
-                addressDto.getCity(), customerDto.getTelephoneNumber(), customerDto.getEmail());
+                addressDto.getCity(), customerDto.getTelephoneNumber(), customerDto.getEmail(), customerDto.getLogin(),
+                null);
 
         customerRepository.save(customerEntity);
 
@@ -33,7 +34,7 @@ public class CustomerService {
         return entities.stream()
                 .map(entity -> new CustomerDto(null, entity.getName(), entity.getSurname(),
                         new AddressDto(entity.getStreet(), entity.getHouseNumber(), entity.getFlatNumber(), entity.getPostCode(),
-                                entity.getCity()), entity.getTelephoneNumber(), entity.getEmail()))
+                                entity.getCity()), entity.getTelephoneNumber(), entity.getEmail(), entity.getLogin(), null))
                 .collect(Collectors.toList());
     }
 
@@ -69,11 +70,30 @@ public class CustomerService {
             entity.setCity(customerDto.getAddress().getCity());
             entity.setTelephoneNumber(customerDto.getTelephoneNumber());
             entity.setEmail(customerDto.getEmail());
+            entity.setLogin(customerDto.getLogin());
+            entity.setPasswordHash();
 
             customerRepository.save(entity);
         }
 //utc
     }
+
+    public boolean checkIsUserExist(String login, String password) {
+
+    }
+
+    private String changePasswordToHash(String password) {
+        SecureRandom random = new SecureRandom();
+        byte[] salt = new byte[16];
+        random.nextBytes(salt);
+
+        KeySpec spec = new PBEKeySpec(password.toCharArray(), salt, 65536, 128);
+        SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
+
+        byte[] hash = factory.generateSecret(spec).;
+    }
+
+
 }
 
 

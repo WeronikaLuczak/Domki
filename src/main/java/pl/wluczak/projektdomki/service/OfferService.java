@@ -28,7 +28,7 @@ public class OfferService {
         Date to = DateUtils.convertDate(offerDto.getDateTo());
         OfferEntity offerEntity = new OfferEntity(null, offerDto.getHouseName(), offerDto.getAddress(),
                 from, to, offerDto.getMaximumNumberOfPeople(), offerDto.getAnimals(), offerDto.getNoSmoking(),
-                offerDto.getPricePerDayPln());
+                offerDto.getPricePerDayPlnInSeason(), offerDto.getPricePerDayPlnOutOfSeason());
 
         offerRepository.save(offerEntity);
 
@@ -41,7 +41,7 @@ public class OfferService {
                         DateUtils.convertDate(offerEntity.getDateFrom()),
                         DateUtils.convertDate(offerEntity.getDateTo()),
                         offerEntity.getMaximumNumberOfPeople(), offerEntity.isAnimals(), offerEntity.isNoSmoking(),
-                        offerEntity.getPricePerDayPln()))
+                        offerEntity.getPricePerDayPlnInSeason(), offerEntity.getPricePerDayPlnOutOfSeason()))
                 .collect(Collectors.toList());
     }
 
@@ -93,7 +93,8 @@ public class OfferService {
             offerEntity.setMaximumNumberOfPeople(offerDto.getMaximumNumberOfPeople());
             offerEntity.setAnimals(offerDto.getAnimals());
             offerEntity.setNoSmoking(offerDto.getNoSmoking());
-            offerEntity.setPricePerDayPln(offerDto.getPricePerDayPln());
+            offerEntity.setPricePerDayPlnInSeason(offerDto.getPricePerDayPlnInSeason());
+            offerEntity.setPricePerDayPlnInSeason(offerDto.getPricePerDayPlnOutOfSeason());
 
             offerRepository.save(offerEntity);
         }
