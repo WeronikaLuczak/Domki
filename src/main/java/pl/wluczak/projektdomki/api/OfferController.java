@@ -20,9 +20,8 @@ public class OfferController {
     @PostMapping
     public ResponseEntity<Void> createOffer(@RequestBody OfferDto offerDto,
                                             HttpServletRequest request) {
-
         if (request.getSession() == null || request.getSession().getAttribute("admin") == null ||
-                (Boolean)request.getSession().getAttribute("admin") == false){
+                (Boolean) request.getSession().getAttribute("admin") == false) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
         offerService.createOffer(offerDto);
@@ -36,21 +35,32 @@ public class OfferController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteOffer(@PathVariable("id") int id) {
+    public ResponseEntity<Object> deleteOffer(@PathVariable("id") int id, HttpServletRequest request) {
 
+        if (request.getSession() == null || request.getSession().getAttribute("admin") == null ||
+                (Boolean) request.getSession().getAttribute("admin") == false) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+
+        }
         offerService.deleteOffer(id);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @PutMapping("/{id}")
-    public void updateOffer(@RequestBody OfferDto offerDto, @PathVariable("id") int id) {
+    public ResponseEntity<Object> updateOffer(@RequestBody OfferDto offerDto, @PathVariable("id") int id,
+                                              HttpServletRequest request) {
+
+        if (request.getSession() == null || request.getSession().getAttribute("admin") == null ||
+                (Boolean) request.getSession().getAttribute("admin") == false) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
         offerService.updateOffer(offerDto, id);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @GetMapping("/available")
     public List<OfferDto> getOffersAvailable(@RequestParam("from") String from,
                                              @RequestParam("to") String to) {
         return offerService.getOffersAvailable(from, to);
-
-
     }
 }
