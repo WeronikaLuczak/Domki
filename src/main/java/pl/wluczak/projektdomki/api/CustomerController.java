@@ -5,7 +5,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.wluczak.projektdomki.api.dto.CustomerDto;
-import pl.wluczak.projektdomki.api.dto.OfferDto;
 import pl.wluczak.projektdomki.service.CustomerService;
 
 import java.util.List;

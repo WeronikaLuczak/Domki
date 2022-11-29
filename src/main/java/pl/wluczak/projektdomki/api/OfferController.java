@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import pl.wluczak.projektdomki.api.dto.OfferDto;
 import pl.wluczak.projektdomki.service.OfferService;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
@@ -17,7 +18,13 @@ public class OfferController {
     private final OfferService offerService;
 
     @PostMapping
-    public ResponseEntity<Void> createOffer(@RequestBody OfferDto offerDto) {
+    public ResponseEntity<Void> createOffer(@RequestBody OfferDto offerDto,
+                                            HttpServletRequest request) {
+
+        if (request.getSession() == null || request.getSession().getAttribute("admin") == null ||
+                (Boolean)request.getSession().getAttribute("admin") == false){
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
         offerService.createOffer(offerDto);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
@@ -30,6 +37,7 @@ public class OfferController {
 
     @DeleteMapping("/{id}")
     public void deleteOffer(@PathVariable("id") int id) {
+
         offerService.deleteOffer(id);
     }
 

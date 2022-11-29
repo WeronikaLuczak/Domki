@@ -54,4 +54,7 @@ public class CustomerEntity {
     @Column(name = "password_hash")
     private String passwordHash;
 
+    @Column(name = "admin")
+    private boolean isAdmin;
+
 }
