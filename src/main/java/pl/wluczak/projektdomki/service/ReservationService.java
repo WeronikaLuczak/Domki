@@ -7,6 +7,7 @@ import pl.wluczak.projektdomki.data.model.OfferEntity;
 import pl.wluczak.projektdomki.data.model.ReservationEntity;
 import pl.wluczak.projektdomki.data.repository.OfferRepository;
 import pl.wluczak.projektdomki.data.repository.ReservationRepository;
+import pl.wluczak.projektdomki.exception.OperationNotAllowedException;
 import pl.wluczak.projektdomki.utils.DateUtils;
 
 import java.util.Date;
@@ -28,11 +29,11 @@ public class ReservationService {
         Date to = DateUtils.convertDate(reservationDto.getDateTo());
 
         if (from.compareTo(to) >= 0) {
-            throw new RuntimeException("Data from >= dacie to");
+            throw new OperationNotAllowedException("Data from >= dacie to");
         }
         Optional<OfferEntity> offerOpt = offerRepository.findById(reservationDto.getHouseId());
         if (offerOpt.isEmpty()) {
-            throw new RuntimeException("Oferta o podanym ID nie istnieje");
+            throw new OperationNotAllowedException("Oferta o podanym ID nie istnieje");
         }
 
         OfferEntity offer = offerOpt.get();
@@ -40,7 +41,7 @@ public class ReservationService {
         int offerCounts = reservationRepository.countReservationBetweenDates(from,to, offer.getId());
 
         if (offerCounts > 0){
-            throw new RuntimeException("Istnieją rezerwacje w tym czasie");
+            throw new OperationNotAllowedException("Istnieją rezerwacje w tym czasie");
         }
 
         double price = discountService.countDiscountPrice(from,to, offer.getPricePerDayPlnInSeason(),offer.getPricePerDayPlnOutOfSeason());

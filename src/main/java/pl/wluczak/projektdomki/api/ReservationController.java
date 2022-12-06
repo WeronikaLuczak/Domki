@@ -30,18 +30,18 @@ public class ReservationController {
     }
 
     @GetMapping
-    public List<ReservationDto> getReservation(HttpServletRequest request) {
+    public ResponseEntity<List<ReservationDto>> getReservation(HttpServletRequest request) {
 
         if (request.getSession() == null || request.getSession().getAttribute("admin") == null ||
                 (Boolean) request.getSession().getAttribute("admin") == false) {
-            return (List<ReservationDto>) ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
-        reservationService.getReservation();
-        return (List<ReservationDto>) ResponseEntity.status(HttpStatus.CREATED).build();
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(reservationService.getReservation());
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Object> deleteReservation(@PathVariable("id") int id, HttpServletRequest request) {
+    public ResponseEntity<Void> deleteReservation(@PathVariable("id") int id, HttpServletRequest request) {
 
         if (request.getSession() == null || request.getSession().getAttribute("admin") == null ||
                 (Boolean) request.getSession().getAttribute("admin") == false) {

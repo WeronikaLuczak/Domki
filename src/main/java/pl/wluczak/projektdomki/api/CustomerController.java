@@ -9,6 +9,7 @@ import pl.wluczak.projektdomki.service.CustomerService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+// kontrola zachowania end pointów
 
 @RestController
 @RequestMapping(value = "/api/v1/customers")
@@ -30,20 +31,20 @@ public class CustomerController {
     }
 
     @GetMapping
-    public List<CustomerDto> getCustomers(HttpServletRequest request) {
+    public ResponseEntity<List<CustomerDto>> getCustomers(HttpServletRequest request) {
 
         if (request.getSession() == null || request.getSession().getAttribute("admin") == null
                 || (Boolean) request.getSession().getAttribute("admin") == false) {
-            return (List<CustomerDto>) ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
 
         customerService.getCustomers();
-        return (List<CustomerDto>) ResponseEntity.status(HttpStatus.CREATED).build();
+        return ResponseEntity.status(HttpStatus.CREATED).body(customerService.getCustomers());
 
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Object> deleteCustomer(@PathVariable("id") int id, HttpServletRequest request) {
+    public ResponseEntity<Void> deleteCustomer(@PathVariable("id") int id, HttpServletRequest request) {
 
         if (request.getSession() == null || request.getSession().getAttribute("admin") == null ||
                 (Boolean)request.getSession().getAttribute("admin") == false){
@@ -55,7 +56,7 @@ public class CustomerController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Object> updateCustomer(@RequestBody CustomerDto customerDto, @PathVariable("id") int id, HttpServletRequest request ) {
+    public ResponseEntity<Void> updateCustomer(@RequestBody CustomerDto customerDto, @PathVariable("id") int id, HttpServletRequest request ) {
 
         if (request.getSession() == null || request.getSession().getAttribute("admin") == null ||
                 (Boolean)request.getSession().getAttribute("admin") == false){

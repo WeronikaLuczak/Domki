@@ -35,7 +35,7 @@ public class OfferController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Object> deleteOffer(@PathVariable("id") int id, HttpServletRequest request) {
+    public ResponseEntity<Void> deleteOffer(@PathVariable("id") int id, HttpServletRequest request) {
 
         if (request.getSession() == null || request.getSession().getAttribute("admin") == null ||
                 (Boolean) request.getSession().getAttribute("admin") == false) {
@@ -47,7 +47,7 @@ public class OfferController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Object> updateOffer(@RequestBody OfferDto offerDto, @PathVariable("id") int id,
+    public ResponseEntity<Void> updateOffer(@RequestBody OfferDto offerDto, @PathVariable("id") int id,
                                               HttpServletRequest request) {
 
         if (request.getSession() == null || request.getSession().getAttribute("admin") == null ||

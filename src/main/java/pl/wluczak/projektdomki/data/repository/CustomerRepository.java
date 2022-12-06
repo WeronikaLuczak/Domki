@@ -5,7 +5,7 @@ import org.springframework.stereotype.Repository;
 import pl.wluczak.projektdomki.data.model.CustomerEntity;
 
 import java.util.Optional;
-
+// interakcja  z tabelą z bazy danych
 @Repository
 public interface CustomerRepository extends JpaRepository<CustomerEntity,Integer> {
 

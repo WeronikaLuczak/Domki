@@ -6,6 +6,7 @@ import pl.wluczak.projektdomki.api.dto.AddressDto;
 import pl.wluczak.projektdomki.api.dto.CustomerDto;
 import pl.wluczak.projektdomki.data.model.CustomerEntity;
 import pl.wluczak.projektdomki.data.repository.CustomerRepository;
+import pl.wluczak.projektdomki.exception.OperationNotAllowedException;
 
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
@@ -26,7 +27,7 @@ public class CustomerService {
     public void createCustomer(CustomerDto customerDto) {
 
         if (customerRepository.findByLogin(customerDto.getLogin()).isPresent()) {
-            throw new RuntimeException("Istnieje użytkownik o podanym loginie");
+            throw new OperationNotAllowedException("Istnieje użytkownik o podanym loginie");
 
 
         }
@@ -43,7 +44,7 @@ public class CustomerService {
     public List<CustomerDto> getCustomers() {
         List<CustomerEntity> entities = customerRepository.findAll();
         return entities.stream()
-                .map(entity -> new CustomerDto(null, entity.getName(), entity.getSurname(),
+                .map(entity -> new CustomerDto(entity.getId(), entity.getName(), entity.getSurname(),
                         new AddressDto(entity.getStreet(), entity.getHouseNumber(), entity.getFlatNumber(), entity.getPostCode(),
                                 entity.getCity()), entity.getTelephoneNumber(), entity.getEmail(), entity.getLogin(), null))
                 .collect(Collectors.toList());
@@ -86,7 +87,7 @@ public class CustomerService {
 
             customerRepository.save(entity);
         }
-//utc
+//pomost międziy end pointem a bazą fdanych
     }
 
     public boolean checkIsUserExistAndHasCorrectPassword(String login, String password) {
